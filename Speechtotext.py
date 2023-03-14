@@ -132,5 +132,5 @@ def split_mp3_and_recognize_audio_and_run_exam(folder_file, save_path=None):
         text_file_path = os.path.join(save_path, text_file_name)
         with open(text_file_path, "w", encoding="utf-8") as f:
             f.write(text)
-    t = f"{t}\{text_file_name}"
+    t = f"{t}/{text_file_name}"
     return t
