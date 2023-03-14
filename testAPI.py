@@ -39,7 +39,7 @@ def split_list_answer(text_path, answer):
     return df.to_html(justify='center')
 
 def find_path():
-    folder_path = r'E:\23-02-2023\input\upload\*'
+    folder_path = r'/home/ubuntu/new/upload/*'
     sub_folders = glob.glob(folder_path)
     the_lastest_subfolder = max(sub_folders, key=os.path.getctime)
     files = glob.glob(the_lastest_subfolder + '\*')
