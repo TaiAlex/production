@@ -8,6 +8,7 @@ import pandas as pd
 import json
 
 
+
 def split_list_answer(text_path, answer):
     col_answer = []
     print(col_answer)
@@ -39,10 +40,10 @@ def split_list_answer(text_path, answer):
     return df.to_html(justify='center')
 
 def find_path():
-    folder_path = r'/home/ubuntu/new/upload/*'
+    folder_path = r'/home/ubuntu/production/upload/*'
     sub_folders = glob.glob(folder_path)
     the_lastest_subfolder = max(sub_folders, key=os.path.getctime)
-    files = glob.glob(the_lastest_subfolder + '\*')
+    files = glob.glob(the_lastest_subfolder + '/*')
     the_last_file = max(files, key=os.path.getctime)
     print(the_last_file)
     return the_last_file
@@ -67,26 +68,3 @@ def mp3_to_wav(file_path):
         return file_path
     else:
         return False
-    
-def wav_to_text(wav):
-    r = sr.Recognizer()
-    with sr.AudioFile(wav) as source:
-        audio = r.record(source)
-        text = r.recognize_google(audio, language = "vi-VI")
-        with open('log.txt', mode = 'a', encoding = 'UTF-8', errors = 'ignore') as data:
-            data.write(str(text))
-            
-def wav_to_txt(wav):
-    text_path = wav.split('.')[0] + '.txt'
-    print(text_path)
-    r = sr.Recognizer()
-    with sr.AudioFile(wav) as source:
-        audio = r.record(source)
-        text = r.recognize_google(audio, language = "vi-VI")
-        with open(text_path, mode = 'a', encoding = 'UTF-8', errors = 'ignore') as data:
-            data.write(str(text))
-        return text_path
-
-
-    
-# wav_to_txt(r'E:/04-02-2023/folder1/upload/audio/audio.mp3')
