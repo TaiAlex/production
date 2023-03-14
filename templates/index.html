@@ -1,0 +1,183 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
+
+    <style>
+        body {
+            background: #AD7BE9;
+            margin: 0;
+            font-family: Arial, Helvetica, sans-serif;
+            color: white;
+        }
+
+        label {
+            padding-left: 100px;
+        }
+        
+        button {
+            border-radius: 13px;
+            background-color: #1C3879;
+            transition-duration: 0.4s;
+            border: none;
+            color: #BFDCE5;
+            margin: 4px 2px;
+            padding: 15px;
+        }
+
+        button:hover {
+            background: #607EAA;
+        }
+
+        h1, tr {
+            text-align: center;
+        }
+
+        table {
+
+        }
+
+        #my-form {
+            text-align: center;
+        }
+
+        #audio_controler{
+            position: absolute;
+            left: 560px;
+            padding: 40px;
+		}
+
+		#bt1	{
+			position: absolute;
+			left: 60%;
+			top: 60%;
+			-ms-transform: translateY(-50%);
+			transform: translateY(-50%);
+		}
+
+        #loading {
+            display: none;
+            justify-content: center;
+            align-items: center;
+            height: 100%;
+        }
+
+    </style>
+</head>
+<body>
+    <h1 style="font-size: 50px; padding: 70px;">Hệ thống chấm điểm từ xa</h1>
+    <!--<p>Mời nhập đáp án</p>-->
+    <form id="my-form">
+        <label for="Q1">Answer 1:</label>
+        <input type="text" id="Q1" name="Q1" maxlength="1" size="5" required>
+        <label for="Q2">Answer 2:</label>
+        <input type="text" id="Q2" name="Q2" maxlength="1" size="5" required>
+        <label for="Q3">Answer 3:</label>
+        <input type="text" id="Q3" name="Q3" maxlength="1" size="5" required>
+        <label for="Q4">Answer 4:</label>
+        <input type="text" id="Q4" name="Q4" maxlength="1" size="5" required>
+        <label for="Q5">Answer 5:</label>
+        <input type="text" id="Q5" name="Q5" maxlength="1" size="5" required><br><br>
+        <button id="bt" type="submit" onclick="answer()">Add answer</button>
+        <h1 id="result"></h1>
+    </form>
+    <div id="audio_controler">
+		<input type="file" onchange="previewFile()"><br>
+		<audio controls>
+			<source src="" type="audio/ogg">
+			<source src="" type="audio/mpeg">
+		</audio><br>
+        <div id="loading">
+            <img src="https://media.giphy.com/media/3o7bu3XilJ5BOiSGic/giphy.gif">
+        </div>
+		<div class='table-secondary' id='text'></div>
+	</div>
+    <!--<div>
+        <button type="submit" onclick="array()">đọc</button>
+        <span id ="array">Text: </span>
+    </div>-->
+    <script>
+        function answer() {
+            const form = document.getElementById('my-form');
+            const result = document.getElementById('result');
+            form.addEventListener('submit', async (event) => {
+                event.preventDefault();
+                const formData = new FormData(form);
+                const response = await fetch('/api/data', {
+                method: 'POST',
+                body: formData
+                });
+                const data = await response.json();
+                console.log(data)
+                document.getElementById('bt').style.display = "none";
+                //result.innerHTML = `<p>Câu 1: ${data.Q1}</p><p>Câu 2: ${data.Q2}</p><p>Câu 3: ${data.Q3}</p><p>Câu 4: ${data.Q4}</p><p>Câu 5: ${data.Q5}</p>`;
+                result.innerHTML = 'Add answer successfully'
+            });
+        }
+
+        function previewFile() {
+			const preview = document.querySelector('audio');
+			const file = document.querySelector('input[type=file]').files[0];
+			const reader = new FileReader();
+			reader.addEventListener("load", function() {
+				preview.src = reader.result;
+				uploadFile(file)
+			}, false);
+			if (file) {
+				reader.readAsDataURL(file);
+			}
+		}
+
+		function uploadFile(file) {
+			var formData = new FormData();
+			formData.append('file', file);
+			fetch('/upload', {
+            //fetch('/files', {
+					method: 'POST',
+					body: formData,
+				})
+				.then(response => {
+					console.log(response);
+					alert("Successfuly uploaded your audio!!!");
+					let btn = document.createElement("button");
+					btn.setAttribute('id','bt1');
+					btn.setAttribute('class','btn btn-primary');
+					btn.innerHTML = "Dịch";
+					btn.addEventListener("click", function () {
+                        document.getElementById('bt1').style.display = "none";
+                        const loading = document.getElementById('loading');
+                        const message = document.getElementById('message');
+                        loading.style.display = 'flex';
+						fetch('to_text')
+						.then(response => {
+							return response.json()
+							})
+						.then(data => {
+                            loading.style.display = 'none';
+                            document.getElementById('text').innerHTML=data;
+							})
+					});
+					document.body.appendChild(btn);
+				})
+				.catch(error => {
+					console.error(error);
+				});
+		}
+
+        function array() {
+            fetch("/answer")
+            .then(response => {
+                return response.json()
+              })
+              .then(data => {
+                document.getElementById('array').innerHTML=Object.values(data);
+              });
+        }
+    </script>
+</body>
+</html>
