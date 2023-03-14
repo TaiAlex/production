@@ -6,7 +6,8 @@ from models import Choice, Answer
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi.security import OAuth2PasswordBearer,OAuth2PasswordRequestForm
 from pydantic import BaseModel
-from testAPI import find_path, mp3_to_wav, wav_to_txt, wav_to_text, split_list_answer
+from testAPI import find_path, mp3_to_wav, split_list_answer
+from Speechtotext import split_mp3_and_recognize_audio_and_run_exam as wav_to_txt
 import str_time
 import os
 import uvicorn
@@ -34,16 +35,6 @@ app.add_middleware(
 time = str_time.now_utc()
 dir_name = str_time.str_yyyy_mm_dd(time)
 file_name = str_time.get_time()
-
-# db : List[Answer] = [
-#     Answer(
-#         Question_1=Choice.C,
-#         Question_2=Choice.C,
-#         Question_3=Choice.B,
-#         Question_4=Choice.B,
-#         Question_5=Choice.D
-#     )
-# ]
 answer_input = []
 
 fake_users_db = {
@@ -127,8 +118,6 @@ async def login(request: Request, form_data: OAuth2PasswordRequestForm = Depends
     hashed_password = fake_hash_password(form_data.password)
     if not hashed_password == user.hashed_password:
         raise HTTPException(status_code=400, detail="Incorrect username or password")
-
-    # return {"access_token": user.username, "token_type": "bearer"}
     return templates.TemplateResponse("index.html", {"request": request})
 
 @app.post('/api/data')
@@ -160,8 +149,7 @@ async def upload(file: UploadFile = File(...)):
 async def test():
     try:
         path = find_path()
-        t = mp3_to_wav(path)
-        text_id = wav_to_txt(t)
+        text_id = wav_to_txt(path)
         text = split_list_answer(text_id, answer_input)
         return text
     except:
@@ -176,6 +164,3 @@ async def print():
 @app.get("/")
 async def main(request: Request):
     return templates.TemplateResponse("template.html", {"request": request})
-
-# if __name__ == "__main__":
-#     uvicorn.run(app, host="0.0.0.0", port=8000, log_level="info", forwarded_allow_ips="*", proxy_headers=True)
