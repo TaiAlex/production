@@ -5,7 +5,7 @@ from google.cloud import speech_v1 as speech
 from pydub import AudioSegment
 import shutil
 
-os.environ['GOOGLE_APPLICATION_CREDENTIALS'] = r'E:\14-03-2023\demo\key.json'
+os.environ['GOOGLE_APPLICATION_CREDENTIALS'] = r'/home/ubuntu/production/key.json'
 speech_client = speech.SpeechClient()
 
 import os
