@@ -9,8 +9,8 @@ from pydantic import BaseModel
 from testAPI import find_path
 from testAPI import find_path_folder
 import str_time
-from Speech_to_text import split_mp3_and_recognize_audio_and_run_exam as split
-from Speech_to_text import analyze_results
+from Met_qua import split_mp3_and_recognize_audio_and_run_exam as split
+from Met_qua import analyze_results
 from rasa.core.agent import Agent
 
 app = FastAPI()
