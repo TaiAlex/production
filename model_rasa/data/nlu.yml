@@ -1,0 +1,184 @@
+version: "3.1"
+
+nlu:
+- intent: greet
+  examples: |
+    - hey
+    - hello
+    - hi
+    - hello there
+    - good morning
+    - good evening
+    - moin
+    - hey there
+    - let's go
+    - hey dude
+    - goodmorning
+    - goodevening
+    - good afternoon
+
+- intent: goodbye
+  examples: |
+    - cu
+    - good by
+    - cee you later
+    - good night
+    - bye
+    - goodbye
+    - have a nice day
+    - see you around
+    - bye bye
+    - see you later
+
+- intent: affirm
+  examples: |
+    - yes
+    - y
+    - indeed
+    - of course
+    - that sounds good
+    - correct
+
+- intent: deny
+  examples: |
+    - no
+    - n
+    - never
+    - I don't think so
+    - don't like that
+    - no way
+    - not really
+
+- intent: mood_great
+  examples: |
+    - perfect
+    - great
+    - amazing
+    - feeling like a king
+    - wonderful
+    - I am feeling very good
+    - I am great
+    - I am amazing
+    - I am going to save the world
+    - super stoked
+    - extremely good
+    - so so perfect
+    - so good
+    - so perfect
+
+- intent: mood_unhappy
+  examples: |
+    - my day was horrible
+    - I am sad
+    - I don't feel very well
+    - I am disappointed
+    - super sad
+    - I'm so sad
+    - sad
+    - very sad
+    - unhappy
+    - not good
+    - not very good
+    - extremly sad
+    - so saad
+    - so sad
+
+- intent: bot_challenge
+  examples: |
+    - are you a bot?
+    - are you a human?
+    - am I talking to a bot?
+    - am I talking to a human?
+
+- intent: DAP_AN_A
+  examples: |
+    - chọn đáp án a
+    - đáp án a
+    - câu a
+    - nghĩ là câu a
+    - câu a đúng nhất 
+    - chắc là câu a
+    - hình như đáp án a
+    - đoán là đáp án a
+    - không lầm thì là câu a
+    - biết đâu được là câu a
+    - thiết nghĩ là câu a
+    - nhớ không nhằm là câu a
+    - 100% câu a đúng
+    - có khả năng là câu a
+    - a là đáp án chính xác
+    - hợp lý nhất chọn a
+    - có thể là câu a
+    - chỉ có câu a
+    - cho nên là chọn câu a
+    - chọn a
+
+- intent: DAP_AN_B
+  examples: |
+    - chọn đáp án b
+    - đáp án b
+    - câu b
+    - nghĩ là câu b
+    - câu b đúng nhất 
+    - chắc là câu b
+    - hình như đáp án b
+    - đoán là đáp án b
+    - không lầm thì là câu b
+    - biết đâu được là câu b
+    - thiết nghĩ là câu b
+    - nhớ không nhằm là câu b
+    - 100% câu b đúng
+    - có khả năng là câu b
+    - b là đáp án chính xác
+    - hợp lý nhất chọn b
+    - có thể là câu b
+    - chỉ có câu b
+    - cho nên là chọn câu b
+    - chọn b
+
+- intent: DAP_AN_C
+  examples: |
+    - chọn đáp án c
+    - đáp án c
+    - câu c
+    - nghĩ là câu c
+    - câu C đúng nhất 
+    - chắc là câu c
+    - hình như đáp án c
+    - đoán là đáp án c
+    - không lầm thì là câu c
+    - biết đâu được là câu c
+    - thiết nghĩ là câu c
+    - nhớ không nhằm là câu c
+    - 100% câu c đúng
+    - có khả năng là câu c
+    - c là đáp án chính xác
+    - hợp lý nhất chọn c
+    - có thể là câu c
+    - chỉ có câu c
+    - cho nên là chọn câu c
+    - chọn c
+
+- intent: DAP_AN_D
+  examples: |
+    - chọn đáp án d
+    - đáp án d
+    - câu d
+    - nghĩ là câu d
+    - câu d đúng nhất 
+    - chắc là câu d
+    - hình như đáp án d
+    - đoán là đáp án d
+    - không lầm thì là câu d
+    - biết đâu được là câu d
+    - thiết nghĩ là câu d
+    - nhớ không nhằm là câu d
+    - 100% câu d đúng
+    - có khả năng là câu d
+    - d là đáp án chính xác
+    - hợp lý nhất chọn d
+    - có thể là câu d
+    - chỉ có câu d
+    - cho nên là chọn câu d
+    - chọn d
+  
