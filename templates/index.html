@@ -1,183 +1,426 @@
 <!DOCTYPE html>
-<html lang="en">
+<html>
 <head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
+  <title> Troi oi la troi </title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@500&display=swap');
+    *{
+      margin: 0;
+      padding: 0;
+      font-family: 'poppins',sans-serif;
+    }
+    body {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      min-height: 100vh;
+      width: 100%;
+      
+      background: url('https://raw.githubusercontent.com/TaiAlex/docker_test/main/darkblue.jpg')no-repeat;
+      background-position: center;
+      background-size: cover;
+    }
+    .form-box{
+      position: relative;
+      width: 400px;
+      height: 450px;
+      background: transparent;
+      border: 2px solid rgba(255,255,255,0.5);
+      border-radius: 20px;
+      backdrop-filter: blur(15px);
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+    h2{
+      font-size: 2em;
+      color: #fff;
+      text-align: center;
+    }
+    .inputbox{
+      position: relative;
+      margin: 30px 0;
+      width: 310px;
+      border-bottom: 2px solid #fff;
+    }
+    .inputbox label{
+      position: absolute;
+      top: 50%;
+      left: 5px;
+      transform: translateY(-50%);
+      color: #fff;
+      font-size: 1em;
+      pointer-events: none;
+      transition: .5s;
+    }
+    input:focus ~ label,
+    input:valid ~ label{
+    top: -5px;
+    }
+    .inputbox input {
+      width: 100%;
+      height: 50px;
+      background: transparent;
+      border: none;
+      outline: none;
+      font-size: 1em;
+      padding:0 35px 0 5px;
+      color: #fff;
+    }
+    .inputbox ion-icon{
+      position: absolute;
+      right: 8px;
+      color: #fff;
+      font-size: 1.2em;
+      top: 20px;
+    }
+    .forget{
+      margin: -15px 0 15px ;
+      font-size: .9em;
+      color: #fff;
+      display: flex;
+      justify-content: space-between;  
+    }
 
-    <style>
-        body {
-            background: #AD7BE9;
-            margin: 0;
-            font-family: Arial, Helvetica, sans-serif;
-            color: white;
-        }
+    .forget label input{
+      margin-right: 3px;
+      
+    }
+    .forget label a{
+      color: #fff;
+      text-decoration: none;
+    }
+    .forget label a:hover{
+      text-decoration: underline;
+    }
+    button{
+      width: 100%;
+      height: 40px;
+      border-radius: 40px;
+      background: #fff;
+      border: none;
+      outline: none;
+      cursor: pointer;
+      font-size: 1em;
+      font-weight: 600;
+    }
 
-        label {
-            padding-left: 100px;
-        }
-        
-        button {
-            border-radius: 13px;
-            background-color: #1C3879;
-            transition-duration: 0.4s;
-            border: none;
-            color: #BFDCE5;
-            margin: 4px 2px;
-            padding: 15px;
-        }
+    .register{
+      font-size: .9em;
+      color: #fff;
+      text-align: center;
+      margin: 25px 0 10px;
+    }
+    .register p a{
+      text-decoration: none;
+      color: #fff;
+      font-weight: 600;
+    }
+    .register p a:hover{
+      text-decoration: underline;
+    }
+    ::selection{
+      color: #fff;
+      background: #6990F2;
+    }
+    .wrapper{
+      width: 430px;
+      background: #fff;
+      border-radius: 5px;
+      display: none;
+      padding: 30px;
+      box-shadow: 7px 7px 12px rgba(0,0,0,0.05);
+    }
+    .wrapper header{
+      color: #6990F2;
+      font-size: 27px;
+      font-weight: 600;
+      text-align: center;
+    }
+    .wrapper form{
+      height: 167px;
+      display: flex;
+      cursor: pointer;
+      margin: 30px 0;
+      align-items: center;
+      justify-content: center;
+      flex-direction: column;
+      border-radius: 5px;
+      border: 2px dashed #6990F2;
+    }
+    form :where(i, p){
+      color: #6990F2;
+    }
+    form i{
+      font-size: 50px;
+    }
+    form p{
+      margin-top: 15px;
+      font-size: 16px;
+    }
 
-        button:hover {
-            background: #607EAA;
-        }
+    section .row{
+      margin-bottom: 10px;
+      background: #E9F0FF;
+      list-style: none;
+      padding: 15px 20px;
+      border-radius: 5px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+    section .row i{
+      color: #6990F2;
+      font-size: 30px;
+    }
+    section .details span{
+      font-size: 14px;
+    }
+    .progress-area .row .content{
+      width: 100%;
+      margin-left: 15px;
+    }
+    .progress-area .details{
+      display: flex;
+      align-items: center;
+      margin-bottom: 7px;
+      justify-content: space-between;
+    }
+    .progress-area .content .progress-bar{
+      height: 6px;
+      width: 100%;
+      margin-bottom: 4px;
+      background: #fff;
+      border-radius: 30px;
+    }
+    .content .progress-bar .progress{
+      height: 100%;
+      width: 0%;
+      background: #6990F2;
+      border-radius: inherit;
+    }
+    .uploaded-area{
+      max-height: 232px;
+      overflow-y: scroll;
+    }
+    .uploaded-area.onprogress{
+      max-height: 150px;
+    }
+    .uploaded-area::-webkit-scrollbar{
+      width: 0px;
+    }
+    .uploaded-area .row .content{
+      display: flex;
+      align-items: center;
+    }
+    .uploaded-area .row .details{
+      display: flex;
+      margin-left: 15px;
+      flex-direction: column;
+    }
+    .uploaded-area .row .details .size{
+      color: #404040;
+      font-size: 11px;
+    }
+    .uploaded-area i.fa-check{
+      font-size: 16px;
+    }
+    #loading {
+      display: none;
+      justify-content: center;
+      align-items: center;
+      height: 100%;
+    }
+    #2-page {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      min-height: 100vh;
+      background: #6990F2;
+    }
+  </style>
+  <script>
+    function answer() {
+      const page = document.querySelector(".page");
+      const my_form = document.getElementById('my-form');
+      const wrapper = document.getElementById("wrapper")
+      my_form.addEventListener('submit', async (event) => {
+        event.preventDefault();
+        const formData = new FormData(my_form);
+        const response = await fetch('/api/data', {
+        method: 'POST',
+        body: formData
+        });
+        const data = await response.json();
+        console.log(data)
+        page.remove();
+        wrapper.style.display ="block"
+        document.getElementById("bt1").style.display = "none";
+      });
+    }
 
-        h1, tr {
-            text-align: center;
-        }
-
-        table {
-
-        }
-
-        #my-form {
-            text-align: center;
-        }
-
-        #audio_controler{
-            position: absolute;
-            left: 560px;
-            padding: 40px;
-		}
-
-		#bt1	{
-			position: absolute;
-			left: 60%;
-			top: 60%;
-			-ms-transform: translateY(-50%);
-			transform: translateY(-50%);
-		}
-
-        #loading {
-            display: none;
-            justify-content: center;
-            align-items: center;
-            height: 100%;
-        }
-
-    </style>
+    function array() {
+        fetch("/answer")
+        .then(response => {
+          return response.json()
+          })
+        .then(data => {
+          document.getElementById('array').innerHTML=Object.values(data);
+        });
+    }
+  </script>
 </head>
 <body>
-    <h1 style="font-size: 50px; padding: 70px;">Hệ thống chấm điểm từ xa</h1>
-    <!--<p>Mời nhập đáp án</p>-->
-    <form id="my-form">
-        <label for="Q1">Answer 1:</label>
-        <input type="text" id="Q1" name="Q1" maxlength="1" size="5" required>
-        <label for="Q2">Answer 2:</label>
-        <input type="text" id="Q2" name="Q2" maxlength="1" size="5" required>
-        <label for="Q3">Answer 3:</label>
-        <input type="text" id="Q3" name="Q3" maxlength="1" size="5" required>
-        <label for="Q4">Answer 4:</label>
-        <input type="text" id="Q4" name="Q4" maxlength="1" size="5" required>
-        <label for="Q5">Answer 5:</label>
-        <input type="text" id="Q5" name="Q5" maxlength="1" size="5" required><br><br>
-        <button id="bt" type="submit" onclick="answer()">Add answer</button>
-        <h1 id="result"></h1>
-    </form>
-    <div id="audio_controler">
-		<input type="file" onchange="previewFile()"><br>
-		<audio controls>
-			<source src="" type="audio/ogg">
-			<source src="" type="audio/mpeg">
-		</audio><br>
-        <div id="loading">
-            <img src="https://media.giphy.com/media/3o7bu3XilJ5BOiSGic/giphy.gif">
-        </div>
-		<div class='table-secondary' id='text'></div>
-	</div>
-    <!--<div>
-        <button type="submit" onclick="array()">đọc</button>
-        <span id ="array">Text: </span>
-    </div>-->
-    <script>
-        function answer() {
-            const form = document.getElementById('my-form');
-            const result = document.getElementById('result');
-            form.addEventListener('submit', async (event) => {
-                event.preventDefault();
-                const formData = new FormData(form);
-                const response = await fetch('/api/data', {
-                method: 'POST',
-                body: formData
-                });
-                const data = await response.json();
-                console.log(data)
-                document.getElementById('bt').style.display = "none";
-                //result.innerHTML = `<p>Câu 1: ${data.Q1}</p><p>Câu 2: ${data.Q2}</p><p>Câu 3: ${data.Q3}</p><p>Câu 4: ${data.Q4}</p><p>Câu 5: ${data.Q5}</p>`;
-                result.innerHTML = 'Add answer successfully'
-            });
+	<section class="page">
+		<div class="form-box">
+			<div class="form-value">
+				<form id="my-form">
+					<h2>Input Answers</h2>
+					<div class="inputbox">
+						<input type="option" id="Q1" name="Q1" maxlength="1" size="5" required>
+						<label for="Q1">Answer 1</label>
+					</div>
+					<div class="inputbox">
+						<input type="text" id="Q2" name="Q2" maxlength="1" size="5" required>
+						<label for="Q2">Answer 2</label>
+					</div>
+					<div class="inputbox">
+						<input type="text" id="Q3" name="Q3" maxlength="1" size="5" required>
+						<label for="Q3">Answer 3</label>
+					</div>
+					<div class="inputbox">
+						<input type="text" id="Q4" name="Q4" maxlength="1" size="5" required>
+						<label for="Q4">Answer 4</label>
+					</div>
+					<div class="inputbox">
+						<input type="text" id="Q5" name="Q5" maxlength="1" size="5" required>
+						<label for="Q5">Answer 5</label>
+					</div>
+					<button id="bt" type="submit" onclick="answer()">Add answers</button>
+				</form>
+			</div>
+		</div>
+  </section>
+  <div id="2-page">
+    <div class="wrapper" id="wrapper">
+      <form id="tt" action="#">
+        <input class="file-input" type="file" name="file" hidden>
+        <i class="fas fa-cloud-upload-alt"></i>
+        <p>Browse File to Upload</p>
+      </form>
+      <section class="progress-area"></section>
+      <section class="uploaded-area"></section>
+      <script>
+        const form = document.getElementById("tt"),
+        fileInput = document.querySelector(".file-input"),
+        progressArea = document.querySelector(".progress-area"),
+        uploadedArea = document.querySelector(".uploaded-area");
+
+        form.addEventListener("click", () =>{
+            fileInput.click();
+        });
+
+        fileInput.onchange = ({target})=>{
+          let file = target.files[0];
+          if(file){
+            let fileName = file.name;
+            if(fileName.length >= 12){
+            let splitName = fileName.split('.');
+            fileName = splitName[0].substring(0, 13) + "... ." + splitName[1];
+          }
+            uploadFile(fileName);
+            uploadFile1(file);
         }
-
-        function previewFile() {
-			const preview = document.querySelector('audio');
-			const file = document.querySelector('input[type=file]').files[0];
-			const reader = new FileReader();
-			reader.addEventListener("load", function() {
-				preview.src = reader.result;
-				uploadFile(file)
-			}, false);
-			if (file) {
-				reader.readAsDataURL(file);
-			}
-		}
-
-		function uploadFile(file) {
-			var formData = new FormData();
-			formData.append('file', file);
-			fetch('/upload', {
-            //fetch('/files', {
-					method: 'POST',
-					body: formData,
-				})
-				.then(response => {
-					console.log(response);
-					alert("Successfuly uploaded your audio!!!");
-					let btn = document.createElement("button");
-					btn.setAttribute('id','bt1');
-					btn.setAttribute('class','btn btn-primary');
-					btn.innerHTML = "Dịch";
-					btn.addEventListener("click", function () {
-                        document.getElementById('bt1').style.display = "none";
-                        const loading = document.getElementById('loading');
-                        const message = document.getElementById('message');
-                        loading.style.display = 'flex';
-						fetch('to_text')
-						.then(response => {
-							return response.json()
-							})
-						.then(data => {
-							loading.style.display = 'none';
-							document.getElementById('text').innerHTML=data;
-							})
-					});
-					document.body.appendChild(btn);
-				})
-				.catch(error => {
-					console.error(error);
-				});
-		}
-
-        function array() {
-            fetch("/answer")
-            .then(response => {
+        }
+        function uploadFile1(file) {
+        var formData = new FormData();
+        formData.append('file', file);
+        fetch('/upload', {
+          method: 'POST',
+          body: formData,
+          })
+          .then(response => {
+            console.log(response);
+            alert("Successfuly uploaded your audio!!!");
+            bt1 = document.getElementById("bt1")
+            bt1.style.display = "inline";
+            bt1.addEventListener("click", function () {
+              document.getElementById("bt1").style.display = "none";
+              const loading = document.getElementById('loading');
+              const message = document.getElementById('message');
+              loading.style.display = 'flex';
+              fetch('to_text')
+              .then(response => {
                 return response.json()
-              })
+                })
               .then(data => {
-                document.getElementById('array').innerHTML=Object.values(data);
-              });
+                loading.style.display = 'none';
+                document.getElementById('text').innerHTML=data;
+                })
+            });
+          })
+          .catch(error => {
+            console.error(error);
+          });
+      }
+        function uploadFile(name){
+          let xhr = new XMLHttpRequest();
+          xhr.open("POST", "php/upload.php");
+          xhr.upload.addEventListener("progress", ({loaded, total}) =>{
+            let fileLoaded = Math.floor((loaded / total) * 100);
+            let fileTotal = Math.floor(total / 1000);
+            let fileSize;
+            (fileTotal < 1024) ? fileSize = fileTotal + " KB" : fileSize = (loaded / (1024*1024)).toFixed(2) + " MB";
+            let progressHTML = `<li class="row">
+                                <i class="fas fa-file-alt"></i>
+                                <div class="content">
+                                    <div class="details">
+                                    <span class="name">${name} • Uploading</span>
+                                    <span class="percent">${fileLoaded}%</span>
+                                    </div>
+                                    <div class="progress-bar">
+                                    <div class="progress" style="width: ${fileLoaded}%"></div>
+                                    </div>
+                                </div>
+                                </li>`;
+            uploadedArea.classList.add("onprogress");
+            progressArea.innerHTML = progressHTML;
+            if(loaded == total){
+            progressArea.innerHTML = "";
+            let uploadedHTML = `<li class="row">
+                                    <div class="content upload">
+                                    <i class="fas fa-file-alt"></i>
+                                    <div class="details">
+                                        <span class="name">${name} • Uploaded</span>
+                                        <span class="size">${fileSize}</span>
+                                    </div>
+                                    </div>
+                                    <i class="fas fa-check"></i>
+                                </li>`;
+            uploadedArea.classList.remove("onprogress");
+            uploadedArea.insertAdjacentHTML("afterbegin", uploadedHTML);
+            }
+            });
+          let data = new FormData(form);
+          xhr.send(data);
         }
-    </script>
+      </script>
+      <div id="audio_controler">
+        <input type="file" onchange="previewFile()"><br>
+        <audio>
+          <source src="" type="audio/ogg">
+          <source src="" type="audio/mpeg">
+        </audio><br>
+          <div id="loading">
+            <img src="https://media.giphy.com/media/3o7bu3XilJ5BOiSGic/giphy.gif">
+          </div>
+        <div class='table-secondary' id='text'></div>
+      </div>
+  </div>
 </body>
 </html>
