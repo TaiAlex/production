@@ -6,11 +6,12 @@ from models import Choice, Answer
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi.security import OAuth2PasswordBearer,OAuth2PasswordRequestForm
 from pydantic import BaseModel
-from testAPI import find_path, mp3_to_wav, split_list_answer
-from Speechtotext import split_mp3_and_recognize_audio_and_run_exam as wav_to_txt
+from testAPI import find_path
+from testAPI import find_path_folder
 import str_time
-import os
-import uvicorn
+from Speech_to_text import split_mp3_and_recognize_audio_and_run_exam as split
+from Speech_to_text import analyze_results
+from rasa.core.agent import Agent
 
 app = FastAPI()
 templates = Jinja2Templates(directory="templates")
@@ -19,7 +20,6 @@ oauth2_scheme = OAuth2PasswordBearer(tokenUrl="token")
 
 origins = [
     "http://localhost",
-    "http://localhost:3000",
     "http://localhost:8000",
 ]
 
@@ -35,6 +35,16 @@ app.add_middleware(
 time = str_time.now_utc()
 dir_name = str_time.str_yyyy_mm_dd(time)
 file_name = str_time.get_time()
+
+# db : List[Answer] = [
+#     Answer(
+#         Question_1=Choice.C,
+#         Question_2=Choice.C,
+#         Question_3=Choice.B,
+#         Question_4=Choice.B,
+#         Question_5=Choice.D
+#     )
+# ]
 answer_input = []
 
 fake_users_db = {
@@ -43,13 +53,6 @@ fake_users_db = {
         "full_name": "John Doe",
         "email": "johndoe@example.com",
         "hashed_password": "fakehashed123456",
-        "disabled": False,
-    },
-    "taialex": {
-        "username": "taialex",
-        "full_name": "Tài A-lét",
-        "email": "example@hello.com",
-        "hashed_password": "fakehashednon",
         "disabled": False,
     },
     "alice": {
@@ -104,10 +107,35 @@ async def get_current_user(token: str = Depends(oauth2_scheme)):
         )
     return user
 
+
 async def get_current_active_user(current_user: User = Depends(get_current_user)):
     if current_user.disabled:
         raise HTTPException(status_code=400, detail="Inactive user")
     return current_user
+
+
+async def read_items(questions: List[str]):
+    agent_nlu = Agent.load(r"D:\Scienceproject\RASA\model_rasa\models\20230314-093029-watery-pudding.tar.gz",action_endpoint=None)
+    traloi = []
+    cau = []
+    for question in questions:
+        # Use the agent to predict the intent of the question
+        response =  await agent_nlu.parse_message(question)
+        intent_name = response["intent"]["name"]
+        cau.append(intent_name)
+    for j in range(len(cau)):
+        if cau[j] == 'DAP_AN_A':
+            traloi.append('A')
+        elif cau[j] == 'DAP_AN_B':
+            traloi.append('B')
+        elif cau[j] == 'DAP_AN_C':
+            traloi.append('C')
+        elif cau[j] == 'DAP_AN_D':
+            traloi.append('D')
+        else:
+            traloi.append('0')
+    return traloi
+
 
 @app.post("/token",response_class=HTMLResponse)
 async def login(request: Request, form_data: OAuth2PasswordRequestForm = Depends()):
@@ -118,6 +146,8 @@ async def login(request: Request, form_data: OAuth2PasswordRequestForm = Depends
     hashed_password = fake_hash_password(form_data.password)
     if not hashed_password == user.hashed_password:
         raise HTTPException(status_code=400, detail="Incorrect username or password")
+
+    # return {"access_token": user.username, "token_type": "bearer"}
     return templates.TemplateResponse("index.html", {"request": request})
 
 @app.post('/api/data')
@@ -147,14 +177,12 @@ async def upload(file: UploadFile = File(...)):
 
 @app.get("/to_text")
 async def test():
-    try:
-        path = find_path()
-        text_id = wav_to_txt(path)
-        text = split_list_answer(text_id, answer_input)
-        return text
-    except:
-        return "Error!!!"
-
+    text = []
+    path = find_path()
+    text,folder,name = split(path, answer_input)
+    traloi = await read_items(text)
+    KQ = analyze_results(answer_input,traloi,folder,name)
+    return KQ
 @app.get("/answer")
 async def print():
     with open(r'E:\23-02-2023\input\upload\24-02-2023\204950.txt', 'r', encoding = 'UTF-8') as data:
